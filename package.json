@@ -1,13 +1,5 @@
 {
-  "name": "zxh-wa-dp",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vercel dev",
-    "deploy": "vercel --prod"
-  },
-  "dependencies": {
-    "@vercel/node": "latest"
-  }
+  "name": "zxh-official-wa-dp",
+  "version": "2.0.0",
+  "private": true
 }
