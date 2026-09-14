@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZXH OFFICIAL WA·DP - WhatsApp DP Fetcher</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Inter',sans-serif}.gradient-bg{background:linear-gradient(135deg,#f0fdf4 0%,#fff 100%)}
+.card-hover{transition:all .3s ease}.card-hover:hover{transform:translateY(-5px);box-shadow:0 20px 25px -5px rgba(0,0,0,.1)}
+.btn-green{background:#16a34a}.btn-green:hover{background:#15803d}
+.result{display:none}.loading{display:none}
+</style>
+</head>
+<body class="gradient-bg">
+
+<header class="text-center pt-12 pb-8 px-4">
+<div class="flex items-center justify-center gap-3 mb-4">
+<div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center">
+<svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57.372-.271.296-1.043 1.02-1.043 2.49 0 1.47 1.068 2.89 1.217 3.09.149.198 2.105 3.214 5.098 4.51.71.307 1.265.49 1.698.63.713.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+</div>
+<h1 class="text-5xl font-extrabold"><span class="text-gray-900">ZXH</span><span class="text-green-500">·DP</span></h1>
+</div>
+<h2 class="text-2xl font-bold text-gray-800">ZXH OFFICIAL WhatsApp DP Fetcher & Profile Downloader</h2>
+<p class="text-gray-500 mt-3 max-w-2xl mx-auto">Find publicly available WhatsApp channel information and profile resources.</p>
+</header>
+
+<section class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6">
+
+<div class="bg-white rounded-2xl p-6 shadow-md card-hover border border-green-100">
+<div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mb-4">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+</div>
+<h3 class="text-xl font-bold text-gray-800 mb-2">Profile Search</h3>
+<p class="text-gray-500 text-sm mb-4">Check a public WhatsApp profile resource by phone number or wa.me URL.</p>
+<div class="space-y-3">
+<input id="profileInput" type="text" placeholder="+92 300 1234567" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+<button onclick="searchProfile()" class="w-full btn-green text-white py-2 rounded-lg font-semibold">🔍 Search</button>
+<div id="profileLoading" class="loading text-center text-sm text-gray-500">Searching…</div>
+<div id="profileResult" class="result bg-gray-50 p-3 rounded-lg">
+<img id="profileImg" class="w-14 h-14 rounded-full object-cover mx-auto mb-2" alt="Profile">
+<p id="profileName" class="font-semibold text-sm text-center"></p>
+<p id="profilePhone" class="text-xs text-gray-500 text-center"></p>
+<a id="profileDownload" class="block mt-2 bg-green-500 text-white px-3 py-2 rounded-lg text-sm text-center" download>⬇ Download</a>
+</div>
+<div id="profileError" class="hidden text-sm text-red-600"></div>
+</div>
+</div>
+
+<div class="bg-white rounded-2xl p-6 shadow-md card-hover border-green-100">
+<div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mb-4">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+</div>
+<h3 class="text-xl font-bold text-gray-800 mb-2">Channel Search</h3>
+<p class="text-gray-500 text-sm mb-4">Search a public WhatsApp channel URL and view its key details.</p>
+<div class="space-y-3">
+<input id="channelInput" type="text" placeholder="https://whatsapp.com/channel/..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+<button onclick="searchChannel()" class="w-full btn-green text-white py-2 rounded-lg font-semibold">🔍 Search</button>
+<div id="channelLoading" class="loading text-center text-sm text-gray-500">Searching…</div>
+<div id="channelResult" class="result bg-gray-50 p-3 rounded-lg">
+<img id="channelImg" class="w-12 h-12 rounded-full object-cover" alt="Channel">
+<p id="channelTitle" class="font-semibold text-sm mt-2"></p>
+<p id="channelFollowers" class="text-xs text-gray-500"></p>
+<p id="channelDescription" class="text-xs text-gray-500 mt-2"></p>
+<a id="channelDownload" class="block mt-2 bg-green-500 text-white py-2 rounded-lg text-sm text-center" download>⬇ Download</a>
+</div>
+<div id="channelError" class="hidden text-sm text-red-600"></div>
+</div>
+</div>
+
+<div class="bg-white rounded-2xl p-6 shadow-md card-hover border border-green-100">
+<div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mb-4">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+</div>
+<h3 class="text-xl font-bold text-gray-800 mb-2">Business Cover</h3>
+<p class="text-gray-500 text-sm mb-4">Retrieve a publicly exposed business cover resource when available.</p>
+<div class="space-y-3">
+<input id="businessInput" type="text" placeholder="+92 300 1234567" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+<button onclick="searchBusiness()" class="w-full btn-green text-white py-2 rounded-lg font-semibold">🔍 Search</button>
+<div id="businessLoading" class="loading text-center text-sm text-gray-500">Searching…</div>
+<div id="businessResult" class="result bg-gray-50 p-3 rounded-lg">
+<img id="businessImg" class="rounded-lg mb-2 w-full" alt="Business Cover">
+<p class="text-sm font-semibold">Business Cover Photo</p>
+<a id="businessDownload" class="block w-full mt-2 bg-green-500 text-white py-2 rounded-lg text-sm text-center" download>⬇ Download</a>
+</div>
+<div id="businessError" class="hidden text-sm text-red-600"></div>
+</div>
+</div>
+</section>
+
+<section class="max-w-5xl mx-auto px-4 py-12">
+<div class="bg-green-50 rounded-2xl p-8">
+<div class="grid grid-cols-4 gap-4 text-center">
+<div><div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">🔍</div><h4 class="font-bold">Enter</h4><p class="text-xs text-gray-500">Phone, wa.me or channel URL</p></div>
+<div><div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">🔎</div><h4 class="font-bold">Search</h4><p class="text-xs text-gray-500">Send the request to ZXH backend</p></div>
+<div><div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">👁️</div><h4 class="font-bold">View</h4><p class="text-xs text-gray-500">View publicly available results</p></div>
+<div><div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">⬇</div><h4 class="font-bold">Download</h4><p class="text-xs text-gray-500">Save available images</p></div>
+</div></div>
+</section>
+
+<section class="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
+<div class="bg-white rounded-2xl p-6 shadow-md"><h3 class="font-bold mb-3">3D WA Icon</h3><div id="three-container" class="w-full h-48 rounded-lg"></div></div>
+<div class="bg-white rounded-2xl p-6 shadow-md"><h3 class="font-bold mb-3">Usage Stats</h3><canvas id="myChart"></canvas></div>
+</section>
+
+<footer class="text-center py-8">
+<div class="inline-flex items-center gap-2 px-6 py-3 border-2 border-green-500 rounded-full text-green-600 font-semibold">🚀 ZXH OFFICIAL • WA·DP</div>
+<p class="text-gray-400 text-sm mt-4">FAST • SIMPLE • EASY TO USE</p>
+<p class="text-gray-400 text-xs mt-2">POWERED BY ZULQARNAIN X HAIDER</p>
+</footer>
+
+<script>
+const api=(path,params)=>path+"?"+new URLSearchParams(params).toString();
+function setState(id,loading,result,error,msg=""){document.getElementById(id+"Loading").style.display=loading?"block":"none";document.getElementById(id+"Result").style.display=result?"block":"none";const e=document.getElementById(id+"Error");e.classList.toggle("hidden",!error);e.textContent=msg}
+async function searchProfile(){
+ const v=document.getElementById("profileInput").value.trim(); if(!v)return;
+ setState("profile",true,false,false);
+ try{const r=await fetch(api("/api/profile",{url:v}));const j=await r.json();if(!r.ok||!j.success)throw Error(j.error||"No public profile image is available.");
+ const d=j.data||{};if(!d.profilePicture)throw Error("No publicly available profile picture was returned.");
+ document.getElementById("profileImg").src=d.profilePicture;
+ document.getElementById("profileName").textContent=d.name||"Public Profile";
+ document.getElementById("profilePhone").textContent=d.phone||v;
+ document.getElementById("profileDownload").href=d.downloadUrl||d.profilePicture;
+ setState("profile",false,true,false);
+ }catch(e){setState("profile",false,false,true,e.message)}
+}
+async function searchChannel(){
+ const v=document.getElementById("channelInput").value.trim();if(!v)return;
+ setState("channel",true,false,false);
+ try{const r=await fetch(api("/api/channel",{url:v}));const j=await r.json();if(!r.ok||!j.success)throw Error(j.error||"Channel could not be read.");
+ const d=j.data||{};document.getElementById("channelImg").src=d.image||"";document.getElementById("channelTitle").textContent=d.title||"WhatsApp Channel";document.getElementById("channelFollowers").textContent=d.followers||"";document.getElementById("channelDescription").textContent=d.description||"";
+ document.getElementById("channelDownload").href=d.image?api("/api/proxy",{url:d.image,filename:"zxh-channel-dp.jpg"}):"#";
+ setState("channel",false,true,false);
+ }catch(e){setState("channel",false,false,true,e.message)}
+}
+async function searchBusiness(){
+ const v=document.getElementById("businessInput").value.trim();if(!v)return;
+ setState("business",true,false,false);
+ try{const r=await fetch(api("/api/business",{url:v}));const j=await r.json();if(!r.ok||!j.success)throw Error(j.error||"No publicly exposed business cover was returned.");
+ const d=j.data||{};if(!d.coverPhoto)throw Error("No public business cover is available.");
+ document.getElementById("businessImg").src=d.coverPhoto;document.getElementById("businessDownload").href=d.downloadUrl||d.coverPhoto;
+ setState("business",false,true,false);
+ }catch(e){setState("business",false,false,true,e.message)}
+}
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,1,.1,1000),renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+renderer.setSize(300,200);document.getElementById("three-container").appendChild(renderer.domElement);
+const geometry=new THREE.TorusGeometry(1,.3,16,100),material=new THREE.MeshStandardMaterial({color:0x16a34a}),torus=new THREE.Mesh(geometry,material);scene.add(torus);
+const light=new THREE.DirectionalLight(0xffffff,1);light.position.set(2,2,2);scene.add(light);camera.position.z=3;
+function animate(){requestAnimationFrame(animate);torus.rotation.x+=.01;torus.rotation.y+=.01;renderer.render(scene,camera)}animate();
+new Chart(document.getElementById("myChart"),{type:"bar",data:{labels:["Profile","Channel","Business"],datasets:[{label:"Requests",data:[0,0,0],backgroundColor:"#16a34a"}]},options:{responsive:true,plugins:{legend:{display:false}}}});
+</script>
+</body>
+</html>
