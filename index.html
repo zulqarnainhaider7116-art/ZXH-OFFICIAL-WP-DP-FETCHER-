@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZXH OFFICIAL WA·DP - WhatsApp DP Fetcher</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -102,7 +101,7 @@ body{font-family:'Inter',sans-serif}.gradient-bg{background:linear-gradient(135d
 </section>
 
 <section class="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
-<div class="bg-white rounded-2xl p-6 shadow-md"><h3 class="font-bold mb-3">3D WA Icon</h3><div id="three-container" class="w-full h-48 rounded-lg"></div></div>
+
 <div class="bg-white rounded-2xl p-6 shadow-md"><h3 class="font-bold mb-3">Usage Stats</h3><canvas id="myChart"></canvas></div>
 </section>
 
@@ -118,7 +117,7 @@ function setState(id,loading,result,error,msg=""){document.getElementById(id+"Lo
 async function searchProfile(){
  const v=document.getElementById("profileInput").value.trim(); if(!v)return;
  setState("profile",true,false,false);
- try{const r=await fetch(api("/api/profile",{url:v}));const j=await r.json();if(!r.ok||!j.success)throw Error(j.error||"No public profile image is available.");
+ try{const r=await fetch(api("/api/profile",{url:v}),{headers:{"Accept":"application/json"}});const t=await r.text();let j;try{j=JSON.parse(t)}catch(_){throw Error("Server returned an invalid response: "+t.slice(0,120))}if(!r.ok||!j.success)throw Error(j.error||"No public profile image is available.");
  const d=j.data||{};if(!d.profilePicture)throw Error("No publicly available profile picture was returned.");
  document.getElementById("profileImg").src=d.profilePicture;
  document.getElementById("profileName").textContent=d.name||"Public Profile";
@@ -130,7 +129,7 @@ async function searchProfile(){
 async function searchChannel(){
  const v=document.getElementById("channelInput").value.trim();if(!v)return;
  setState("channel",true,false,false);
- try{const r=await fetch(api("/api/channel",{url:v}));const j=await r.json();if(!r.ok||!j.success)throw Error(j.error||"Channel could not be read.");
+ try{const r=await fetch(api("/api/channel",{url:v}),{headers:{"Accept":"application/json"}});const t=await r.text();let j;try{j=JSON.parse(t)}catch(_){throw Error("Server returned an invalid response: "+t.slice(0,120))}if(!r.ok||!j.success)throw Error(j.error||"Channel could not be read.");
  const d=j.data||{};document.getElementById("channelImg").src=d.image||"";document.getElementById("channelTitle").textContent=d.title||"WhatsApp Channel";document.getElementById("channelFollowers").textContent=d.followers||"";document.getElementById("channelDescription").textContent=d.description||"";
  document.getElementById("channelDownload").href=d.image?api("/api/proxy",{url:d.image,filename:"zxh-channel-dp.jpg"}):"#";
  setState("channel",false,true,false);
@@ -139,17 +138,12 @@ async function searchChannel(){
 async function searchBusiness(){
  const v=document.getElementById("businessInput").value.trim();if(!v)return;
  setState("business",true,false,false);
- try{const r=await fetch(api("/api/business",{url:v}));const j=await r.json();if(!r.ok||!j.success)throw Error(j.error||"No publicly exposed business cover was returned.");
+ try{const r=await fetch(api("/api/business",{url:v}),{headers:{"Accept":"application/json"}});const t=await r.text();let j;try{j=JSON.parse(t)}catch(_){throw Error("Server returned an invalid response: "+t.slice(0,120))}if(!r.ok||!j.success)throw Error(j.error||"No publicly exposed business cover was returned.");
  const d=j.data||{};if(!d.coverPhoto)throw Error("No public business cover is available.");
  document.getElementById("businessImg").src=d.coverPhoto;document.getElementById("businessDownload").href=d.downloadUrl||d.coverPhoto;
  setState("business",false,true,false);
  }catch(e){setState("business",false,false,true,e.message)}
 }
-const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,1,.1,1000),renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
-renderer.setSize(300,200);document.getElementById("three-container").appendChild(renderer.domElement);
-const geometry=new THREE.TorusGeometry(1,.3,16,100),material=new THREE.MeshStandardMaterial({color:0x16a34a}),torus=new THREE.Mesh(geometry,material);scene.add(torus);
-const light=new THREE.DirectionalLight(0xffffff,1);light.position.set(2,2,2);scene.add(light);camera.position.z=3;
-function animate(){requestAnimationFrame(animate);torus.rotation.x+=.01;torus.rotation.y+=.01;renderer.render(scene,camera)}animate();
 new Chart(document.getElementById("myChart"),{type:"bar",data:{labels:["Profile","Channel","Business"],datasets:[{label:"Requests",data:[0,0,0],backgroundColor:"#16a34a"}]},options:{responsive:true,plugins:{legend:{display:false}}}});
 </script>
 </body>
